@@ -3,13 +3,11 @@ import asyncio
 import requests
 import pyminizip
 from data.config import ADMINS
-from moviepy import VideoFileClip
+from pymediainfo import MediaInfo
 from sqlite3 import IntegrityError
 from aiogram.types import FSInputFile
 from instaloader import Instaloader, Post
 from aiogram.utils.media_group import MediaGroupBuilder
-
-
 
 
 class InstagramDownloader:
@@ -111,12 +109,13 @@ class InstagramDownloaderSingleton:
         return cls._instance  # Mavjud obyektni qaytaradi
 
 
-
 async def get_video_resolution(file_path):
-    clip = VideoFileClip(file_path)
-    width, height = clip.size
-    clip.close()
-    return width, height
+    media_info = MediaInfo.parse(file_path)
+    for track in media_info.tracks:
+        if track.track_type == "Video":
+            print(track.width, track.height)
+            return track.width, track.height
+    raise ValueError("Videodan o'lcham ma'lumotini olishning iloji bo'lmadi!")
 
 
 async def send_zip_data():
