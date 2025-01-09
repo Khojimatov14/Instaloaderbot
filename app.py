@@ -1,12 +1,11 @@
-import middlewares, filters, handlers
+import sys
 import asyncio
 import logging
-import sys
+import middlewares, filters, handlers
+from middlewares import ThrottlingMiddleware
 from utils.notify_admins import on_startup_notify
 from utils.set_bot_commands import set_default_commands
 from loader import dp, bot, media_db, media_group_db, users_db
-from middlewares import ThrottlingMiddleware
-from utils import send_zip_data
 
 
 async def main():
