@@ -39,7 +39,7 @@ class InstagramDownloader:
             download_video_thumbnails=False,
             download_geotags=False,
             download_comments=False,
-            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.0.0 Safari/537.36"
+            user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
         )
 
     async def switch_proxy(self):
@@ -53,6 +53,31 @@ class InstagramDownloader:
             'http': f"http://{current_proxy}",
             'https': f"http://{current_proxy}"
         }
+
+    # async def switch_proxy(self):
+    #     if not self.proxy_list:
+    #         raise ValueError("Proksi ro'yxati bo'sh! PROXIES to'g'ri o'rnatilganligini tekshiring.")
+    #
+    #     self.proxy_index = (self.proxy_index + 1) % len(self.proxy_list)
+    #     current_proxy = self.proxy_list[self.proxy_index]
+    #
+    #     self.loader.context.http_proxies = {
+    #         'http': f"http://{current_proxy}",
+    #         'https': f"http://{current_proxy}"
+    #     }
+    #
+    #     # Proxy-ni tekshirish
+    #     try:
+    #         response = requests.get("https://www.instagram.com", proxies=self.loader.context.http_proxies, timeout=10)
+    #         if response.status_code == 200:
+    #             print(f"Proxy muvaffaqiyatli o'zgartirildi: {current_proxy}")
+    #         else:
+    #             print(f"Proxy ishlamayapti: {current_proxy}")
+    #             await self.switch_proxy()  # Agar proxy ishlamasa, yana bir marta urinib ko'rish
+    #     except Exception as e:
+    #         print(f"{current_proxy} Proxy tekshirishda xatolik: {e}")
+    #         await self.switch_proxy()  # Xatolik yuz bersa, yana bir marta urinib ko'rish
+
 
     async def get_post_data(self, shortcode):
         from loader import bot
@@ -107,7 +132,7 @@ class InstagramDownloaderSingleton:
     @classmethod
     def get_instance(cls):
         if cls._instance is None:  # Agar obyekt hali yaratilmagan bo'lsa
-            cls._instance = InstagramDownloader(switch_after=2)
+            cls._instance = InstagramDownloader(switch_after=3)
         return cls._instance  # Mavjud obyektni qaytaradi
 
 
